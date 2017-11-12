@@ -53,11 +53,11 @@ public class Cliente {
         }while(isValido());
     }
     /**
-     * Valida a quantidade de linhas da matriz A e a quantidade de colunas da matriz B
+     * Valida a quantidade de colunas da matriz A e a quantidade de linhas da matriz B
      * @return true se A == B
      */
     private boolean isValido() {
-        return valoresDaMatrizA.getQuantidadeDeLinhas() != valoresDaMatrizB.getQuantidadeDeColunas();
+        return valoresDaMatrizA.getQuantidadeDeColunas() != valoresDaMatrizB.getQuantidadeDeLinhas();
     }
 
     /**

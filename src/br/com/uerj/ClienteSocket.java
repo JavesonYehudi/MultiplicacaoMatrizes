@@ -4,6 +4,7 @@ import br.com.uerj.controle.Cliente;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.List;
@@ -29,12 +30,18 @@ public class ClienteSocket {
 
     public void executa() throws IOException {
         Socket clienteSocket = new Socket(this.host, this.porta);
-        PrintStream saida = new PrintStream(clienteSocket.getOutputStream());
-        saida.println("Teste");
-        /*System.out.println("O cliente se conectou ao servidor!");
+        System.out.println("O cliente se conectou ao servidor!");
+
+        List<Tarefa> tarefas = this.getTarefas();
+        System.out.println(tarefas);
+
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(clienteSocket.getOutputStream());
+        objectOutputStream.writeObject(tarefas);
+    }
+
+    private List<Tarefa> getTarefas() throws IOException {
         Cliente cliente = new Cliente();
         cliente.iniciaMatriz();
-        List<Tarefa> tarefas = cliente.divideTarefas();
-        System.out.println(tarefas);*/
+        return cliente.divideTarefas();
     }
 }

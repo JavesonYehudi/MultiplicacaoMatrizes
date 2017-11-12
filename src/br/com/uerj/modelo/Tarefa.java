@@ -1,30 +1,40 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 public class Tarefa implements Serializable{
-    private Set<Matriz.Celula> linhas, colunas;
+    private SortedSet<Matriz.Celula> linhas, colunas;
 
-    public Tarefa(Set<Matriz.Celula> linhas, Set<Matriz.Celula> colunas) {
+    public Tarefa(SortedSet<Matriz.Celula> linhas, SortedSet<Matriz.Celula> colunas) {
         this.linhas = linhas;
         this.colunas = colunas;
     }
 
-    public Set<Matriz.Celula> getLinhas() {
+    public SortedSet<Matriz.Celula> getLinhas() {
         return linhas;
     }
 
-    public void setLinhas(Set<Matriz.Celula> linhas) {
+    public void setLinhas(SortedSet<Matriz.Celula> linhas) {
         this.linhas = linhas;
     }
 
-    public Set<Matriz.Celula> getColunas() {
+    public SortedSet<Matriz.Celula> getColunas() {
         return colunas;
     }
 
-    public void setColunas(Set<Matriz.Celula> colunas) {
+    public void setColunas(SortedSet<Matriz.Celula> colunas) {
         this.colunas = colunas;
+    }
+
+    public Matriz.Celula getCelulaDaLinha(int index){
+        return (Matriz.Celula) this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0];
+
+    }
+
+    public Matriz.Celula getCelulaDaColuna(int index){
+        return (Matriz.Celula) this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0];
     }
 
     @Override

@@ -1,25 +1,25 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
  * Wrapper para facilitar o uso da matriz
  */
 public class Matriz implements Serializable{
-    private Set<Celula> celulas;
+    private SortedSet<Celula> celulas;
 
     public Matriz() {
-        celulas = new HashSet<>();
+        celulas = new TreeSet<>();
     }
 
-    public Set<Celula> getCelulas() {
+    public SortedSet<Celula> getCelulas() {
         return celulas;
     }
 
-    public void setCelulas(Set<Celula> celulas) {
+    public void setCelulas(SortedSet<Celula> celulas) {
         this.celulas = celulas;
     }
 
@@ -57,8 +57,10 @@ public class Matriz implements Serializable{
      * @param linha
      * @return celulas especificas da linha
      */
-    public Set<Celula> getLinhas(int linha){
-        return this.celulas.stream().filter(celula -> celula.getLinha() == linha).collect(Collectors.toSet());
+    public SortedSet<Celula> getLinhas(int linha){
+        Comparator<Celula> byTimestamp = Comparator.comparingLong(Celula::getLinha);
+        Supplier<TreeSet<Celula>> supplier = () -> new TreeSet<Celula>(byTimestamp);
+        return this.celulas.stream().filter(celula -> celula.getLinha() == linha).collect(Collectors.toCollection(supplier));
     }
 
     /**
@@ -66,8 +68,10 @@ public class Matriz implements Serializable{
      * @param coluna
      * @return celulas especificas da coluna
      */
-    public Set<Celula> getColunas(int coluna){
-        return this.celulas.stream().filter(celula -> celula.getColuna() == coluna).collect(Collectors.toSet());
+    public SortedSet<Celula> getColunas(int coluna){
+        Comparator<Celula> byTimestamp = Comparator.comparingLong(Celula::getLinha);
+        Supplier<TreeSet<Celula>> supplier = () -> new TreeSet<Celula>(byTimestamp);
+        return this.celulas.stream().filter(celula -> celula.getColuna() == coluna).collect(Collectors.toCollection(supplier));
     }
 
     @Override
