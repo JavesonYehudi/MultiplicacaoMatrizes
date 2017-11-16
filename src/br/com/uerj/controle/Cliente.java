@@ -4,6 +4,7 @@ import br.com.uerj.modelo.Matriz;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 

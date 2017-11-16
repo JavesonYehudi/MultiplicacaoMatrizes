@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -22,47 +23,36 @@ public class ServidorSocket {
     }
 
     private int porta;
-    private List<PrintStream> clientes;
 
     public ServidorSocket(int porta) {
         this.porta = porta;
-        this.clientes = new ArrayList<PrintStream>();
     }
 
     public void executa() throws IOException{
         ServerSocket servidor = new ServerSocket(porta);
         System.out.println("Servidor iniciado!");
+        Sacola sacola = new Sacola();
 
         while(true){
             Socket cliente = servidor.accept();
 
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
             ObjectInputStream objectInputStream = new ObjectInputStream(cliente.getInputStream());
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliente.getOutputStream());
-            Resultado resultados = new Resultado();
 
             try {
                 List<Tarefa> tarefas = (List<Tarefa>)objectInputStream.readObject();
-                Sacola sacola = new Sacola();
-                sacola.setTarefas(tarefas);
-                //objectOutputStream.writeChars("Tarefas recebidas e adicionadas a Sacola");
+                sacola.addSocket(cliente, tarefas);
+                sacola.executaTarefas(cliente);
 
-                sacola.executaTarefas();
-                sacola.getResultado().forEach(resultado -> {
-                    try {
-                        resultados.addResultado(resultado.get());
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                objectOutputStream.writeObject(resultados);
+                objectOutputStream.writeObject(sacola.getResultado(cliente));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-            entrada.close();
+            objectInputStream.close();
+            objectOutputStream.close();
+            cliente.close();
         }
     }
 }

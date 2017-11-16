@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Resultado implements Serializable{
-    private List<Integer> resultados = new ArrayList<>();
+    private List<ResultadoTarefa> resultados = new ArrayList<>();
 
-    public List<Integer> getResultados() {
+    public List<ResultadoTarefa> getResultados() {
         return resultados;
     }
 
-    public void setResultados(List<Integer> resultados) {
+    public void setResultados(List<ResultadoTarefa> resultados) {
         this.resultados = resultados;
     }
 
-    public void addResultado(int resultado){
+    public void addResultado(ResultadoTarefa resultado){
         resultados.add(resultado);
     }
 

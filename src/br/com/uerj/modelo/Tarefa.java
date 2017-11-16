@@ -1,6 +1,7 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
+import java.net.Socket;
 import java.util.Set;
 import java.util.stream.Collectors;
 
