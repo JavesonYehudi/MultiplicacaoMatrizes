@@ -1,6 +1,7 @@
 package br.com.uerj;
 
 import br.com.uerj.controle.Sacola;
+import br.com.uerj.modelo.Resultado;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.*;
@@ -39,24 +40,24 @@ public class ServidorSocket {
             ObjectInputStream objectInputStream = new ObjectInputStream(cliente.getInputStream());
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliente.getOutputStream());
-
+            Resultado resultados = new Resultado();
 
             try {
                 List<Tarefa> tarefas = (List<Tarefa>)objectInputStream.readObject();
                 Sacola sacola = new Sacola();
                 sacola.setTarefas(tarefas);
-                objectOutputStream.writeObject("Tarefas recebidas e adicionadas a Sacola");
+                //objectOutputStream.writeChars("Tarefas recebidas e adicionadas a Sacola");
 
                 sacola.executaTarefas();
                 sacola.getResultado().forEach(resultado -> {
                     try {
-                        int valor = resultado.get();
-                        System.out.println("Resultado da Tarefa: " + valor);
-                        objectOutputStream.writeObject(valor);
-                    } catch (IOException | InterruptedException | ExecutionException e) {
+                        resultados.addResultado(resultado.get());
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 });
+
+                objectOutputStream.writeObject(resultados);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

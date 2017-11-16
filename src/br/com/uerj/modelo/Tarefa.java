@@ -1,30 +1,30 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
-import java.util.SortedSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Tarefa implements Serializable{
-    private SortedSet<Matriz.Celula> linhas, colunas;
+    private Set<Matriz.Celula> linhas, colunas;
 
-    public Tarefa(SortedSet<Matriz.Celula> linhas, SortedSet<Matriz.Celula> colunas) {
+    public Tarefa(Set<Matriz.Celula> linhas, Set<Matriz.Celula> colunas) {
         this.linhas = linhas;
         this.colunas = colunas;
     }
 
-    public SortedSet<Matriz.Celula> getLinhas() {
+    public Set<Matriz.Celula> getLinhas() {
         return linhas;
     }
 
-    public void setLinhas(SortedSet<Matriz.Celula> linhas) {
+    public void setLinhas(Set<Matriz.Celula> linhas) {
         this.linhas = linhas;
     }
 
-    public SortedSet<Matriz.Celula> getColunas() {
+    public Set<Matriz.Celula> getColunas() {
         return colunas;
     }
 
-    public void setColunas(SortedSet<Matriz.Celula> colunas) {
+    public void setColunas(Set<Matriz.Celula> colunas) {
         this.colunas = colunas;
     }
 

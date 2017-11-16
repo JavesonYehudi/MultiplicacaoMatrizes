@@ -1,25 +1,25 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Wrapper para facilitar o uso da matriz
  */
 public class Matriz implements Serializable{
-    private SortedSet<Celula> celulas;
+    private Set<Celula> celulas;
 
     public Matriz() {
-        celulas = new TreeSet<>();
+        celulas = new HashSet<>();
     }
 
-    public SortedSet<Celula> getCelulas() {
+    public Set<Celula> getCelulas() {
         return celulas;
     }
 
-    public void setCelulas(SortedSet<Celula> celulas) {
+    public void setCelulas(Set<Celula> celulas) {
         this.celulas = celulas;
     }
 
@@ -57,10 +57,8 @@ public class Matriz implements Serializable{
      * @param linha
      * @return celulas especificas da linha
      */
-    public SortedSet<Celula> getLinhas(int linha){
-        Comparator<Celula> byTimestamp = Comparator.comparingLong(Celula::getLinha);
-        Supplier<TreeSet<Celula>> supplier = () -> new TreeSet<Celula>(byTimestamp);
-        return this.celulas.stream().filter(celula -> celula.getLinha() == linha).collect(Collectors.toCollection(supplier));
+    public Set<Celula> getLinhas(int linha){
+        return this.celulas.stream().filter(celula -> celula.getLinha() == linha).collect(Collectors.toSet());
     }
 
     /**
@@ -68,10 +66,8 @@ public class Matriz implements Serializable{
      * @param coluna
      * @return celulas especificas da coluna
      */
-    public SortedSet<Celula> getColunas(int coluna){
-        Comparator<Celula> byTimestamp = Comparator.comparingLong(Celula::getLinha);
-        Supplier<TreeSet<Celula>> supplier = () -> new TreeSet<Celula>(byTimestamp);
-        return this.celulas.stream().filter(celula -> celula.getColuna() == coluna).collect(Collectors.toCollection(supplier));
+    public Set<Celula> getColunas(int coluna){
+        return this.celulas.stream().filter(celula -> celula.getColuna() == coluna).collect(Collectors.toSet());
     }
 
     @Override
@@ -144,7 +140,7 @@ public class Matriz implements Serializable{
 
             if (getLinha() != celula.getLinha()) return false;
             if (getColuna() != celula.getColuna()) return false;
-            return getValor() == celula.getValor();
+            return true;
         }
 
         @Override
