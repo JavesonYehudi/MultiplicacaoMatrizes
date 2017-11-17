@@ -19,6 +19,10 @@ public class Resultado implements Serializable{
         resultados.add(resultado);
     }
 
+    public ResultadoTarefa getResultadoTarefa(int index){
+        return resultados.get(index);
+    }
+
     @Override
     public String toString() {
         return "Resultado{" +

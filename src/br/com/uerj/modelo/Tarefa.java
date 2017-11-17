@@ -1,7 +1,6 @@
 package br.com.uerj.modelo;
 
 import java.io.Serializable;
-import java.net.Socket;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,11 +30,18 @@ public class Tarefa implements Serializable{
 
     public Matriz.Celula getCelulaDaLinha(int index){
         return (Matriz.Celula) this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0];
-
     }
 
     public Matriz.Celula getCelulaDaColuna(int index){
         return (Matriz.Celula) this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0];
+    }
+
+    public void removeCelulaDaLinha(int index){
+        this.linhas.remove((Matriz.Celula)this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0]);
+    }
+
+    public void removeCelulaDaColuna(int index){
+        this.colunas.remove((Matriz.Celula)this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0]);
     }
 
     @Override

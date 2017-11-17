@@ -1,16 +1,19 @@
 package br.com.uerj;
 
 import br.com.uerj.controle.Cliente;
+import br.com.uerj.modelo.Matriz;
 import br.com.uerj.modelo.Resultado;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
 
 public class ClienteSocket {
+    private Cliente cliente = new Cliente();
 
     public static void main(String[] args) {
         try {
@@ -29,6 +32,7 @@ public class ClienteSocket {
     }
 
     public void executa() throws IOException {
+
         Socket clienteSocket = new Socket(this.host, this.porta);
         System.out.println("O cliente se conectou ao servidor!");
 
@@ -43,7 +47,6 @@ public class ClienteSocket {
     }
 
     private List<Tarefa> getTarefas() throws IOException {
-        Cliente cliente = new Cliente();
         cliente.iniciaMatriz();
         return cliente.divideTarefas();
     }
@@ -63,11 +66,13 @@ public class ClienteSocket {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Resultado resultado = new Resultado();
+            Resultado resultado;
             while(true) {
                 try {
                     resultado = (Resultado) objectInputStream.readObject();
-                    System.out.println(resultado);
+                    Matriz matriz = cliente.geraMatrizResultante(resultado);
+
+                    System.out.println(matriz);
                 } catch (IOException | ClassNotFoundException e) {}
             }
         }

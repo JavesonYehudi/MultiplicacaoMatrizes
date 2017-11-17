@@ -1,6 +1,7 @@
 package br.com.uerj.controle;
 
 import br.com.uerj.modelo.Matriz;
+import br.com.uerj.modelo.Resultado;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.IOException;
@@ -18,10 +19,10 @@ public class Cliente {
      * @throws IOException
      */
     public void iniciaMatriz() throws IOException {
-        iniciaValoresDasMatrizes();
+        iniciaLinhasEColunasDasMatrizes();
 
-        matrizA = this.getMatriz(valoresDaMatrizA, "A");
-        matrizB = this.getMatriz(valoresDaMatrizB, "B");
+        matrizA = this.geraMatriz(valoresDaMatrizA, "A");
+        matrizB = this.geraMatriz(valoresDaMatrizB, "B");
     }
 
     /**
@@ -42,22 +43,22 @@ public class Cliente {
      * Inicializa as quantidades de linhas e colunas das matrizes A e B
      * @throws IOException
      */
-    private void iniciaValoresDasMatrizes() throws IOException {
+    private void iniciaLinhasEColunasDasMatrizes() throws IOException {
         do{
-            valoresDaMatrizA = lerTeclado("A");
-            valoresDaMatrizB = lerTeclado("B");
+            valoresDaMatrizA = lerLinhasEColunasDoTeclado("A");
+            valoresDaMatrizB = lerLinhasEColunasDoTeclado("B");
 
-            if(isValido()) {
+            if(isInvalido()) {
                 System.out.println("A quantidade de linhas de A deve ser igual a quantidade de colunas de B");
             }
 
-        }while(isValido());
+        }while(isInvalido());
     }
     /**
      * Valida a quantidade de colunas da matriz A e a quantidade de linhas da matriz B
      * @return true se A == B
      */
-    private boolean isValido() {
+    private boolean isInvalido() {
         return valoresDaMatrizA.getQuantidadeDeColunas() != valoresDaMatrizB.getQuantidadeDeLinhas();
     }
 
@@ -67,7 +68,7 @@ public class Cliente {
      * @return ValoresDaMatriz
      * @throws IOException
      */
-    private ValoresDaMatriz lerTeclado(String matriz) throws IOException {
+    private ValoresDaMatriz lerLinhasEColunasDoTeclado(String matriz) throws IOException {
         ValoresDaMatriz valoresDaMatriz = new ValoresDaMatriz();
         System.out.println("Digite a quantidade de linhas da matriz " + matriz);
         valoresDaMatriz.setQuantidadeDeLinhas(ControleTeclado.obterInteiro());
@@ -85,13 +86,25 @@ public class Cliente {
      * @return
      * @throws IOException
      */
-    private Matriz getMatriz(ValoresDaMatriz valoresDaMatriz, String matrizId) throws IOException {
+    private Matriz geraMatriz(ValoresDaMatriz valoresDaMatriz, String matrizId) throws IOException {
         System.out.println("Inicializando matriz " + matrizId + ".");
         Matriz matriz = new Matriz();
         for (int i = 0; i < valoresDaMatriz.getQuantidadeDeLinhas(); i++)
             for (int j = 0; j < valoresDaMatriz.getQuantidadeDeColunas(); j++){
                 System.out.println("Digite o valor da celula de linha: " + i + " e coluna " + j + ":");
                 matriz.addCelula(i, j, ControleTeclado.obterInteiro());
+            }
+
+        return matriz;
+    }
+
+    public Matriz geraMatrizResultante(Resultado resultado){
+        Matriz matriz = new Matriz();
+        int cont = 0;
+        for (int i = 0; i < valoresDaMatrizA.getQuantidadeDeLinhas(); i++)
+            for (int j = 0; j < valoresDaMatrizB.getQuantidadeDeColunas(); j++){
+                matriz.addCelula(i, j, resultado.getResultadoTarefa(cont).getResultado());
+                cont++;
             }
 
         return matriz;
