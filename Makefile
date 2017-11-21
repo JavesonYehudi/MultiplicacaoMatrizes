@@ -1,10 +1,6 @@
-# Binários
-JAVAC=/usr/bin/javac
-JAVA=/usr/bin/java
-JAR=/usr/bin/jar
-
 JFLAGS = -g
 JC = /usr/bin/javac
+JAVA = /usr/bin/java
 .SUFFIXES: .java .class
 .java.class:
 		$(JC) $(JFLAGS) -d out -sourcepath src $*.java
@@ -18,13 +14,20 @@ CLASSES = \
 		src/br/com/uerj/controle/Sacola.java \
 		src/br/com/uerj/RecebeMensagem.java \
 		src/br/com/uerj/ClienteSocket.java \
-		src/br/com/uerj/Main.java \
 		src/br/com/uerj/ServidorSocket.java 
 
+SERVIDOR = ServidorSocket
+CLIENTE = ClienteSocket
 
 default: classes
 
 classes: $(CLASSES:.java=.class)
+
+servidor: classes
+		$(JAVA) -classpath ./out br.com.uerj.$(SERVIDOR)
+
+cliente: classes
+		$(JAVA) -classpath ./out br.com.uerj.$(CLIENTE)
 
 clean:
 		$(RM) *.class
