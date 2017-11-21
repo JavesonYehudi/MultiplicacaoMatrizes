@@ -41,7 +41,7 @@ public class ClienteSocket {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(clienteSocket.getOutputStream());
         objectOutputStream.writeObject(tarefas);
 
-        Thread thread = new Thread(new RecebeMensagem(clienteSocket.getInputStream()));
+        Thread thread = new Thread(new RecebeMensagem(clienteSocket.getInputStream(), cliente));
         thread.start();
         while (thread.isAlive()){}
     }
@@ -49,32 +49,5 @@ public class ClienteSocket {
     private List<Tarefa> getTarefas() throws IOException {
         cliente.iniciaMatriz();
         return cliente.divideTarefas();
-    }
-
-    public class RecebeMensagem implements Runnable{
-        private InputStream inputStream;
-
-        public RecebeMensagem(InputStream inputStream) {
-            this.inputStream = inputStream;
-        }
-
-        public void run(){
-
-            ObjectInputStream objectInputStream = null;
-            try {
-                objectInputStream = new ObjectInputStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Resultado resultado;
-            while(true) {
-                try {
-                    resultado = (Resultado) objectInputStream.readObject();
-                    Matriz matriz = cliente.geraMatrizResultante(resultado);
-
-                    System.out.println(matriz);
-                } catch (IOException | ClassNotFoundException e) {}
-            }
-        }
     }
 }

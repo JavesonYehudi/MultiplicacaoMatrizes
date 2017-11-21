@@ -5,43 +5,43 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Tarefa implements Serializable{
-    private Set<Matriz.Celula> linhas, colunas;
+    private Set<Celula> linhas, colunas;
 
-    public Tarefa(Set<Matriz.Celula> linhas, Set<Matriz.Celula> colunas) {
+    public Tarefa(Set<Celula> linhas, Set<Celula> colunas) {
         this.linhas = linhas;
         this.colunas = colunas;
     }
 
-    public Set<Matriz.Celula> getLinhas() {
+    public Set<Celula> getLinhas() {
         return linhas;
     }
 
-    public void setLinhas(Set<Matriz.Celula> linhas) {
+    public void setLinhas(Set<Celula> linhas) {
         this.linhas = linhas;
     }
 
-    public Set<Matriz.Celula> getColunas() {
+    public Set<Celula> getColunas() {
         return colunas;
     }
 
-    public void setColunas(Set<Matriz.Celula> colunas) {
+    public void setColunas(Set<Celula> colunas) {
         this.colunas = colunas;
     }
 
-    public Matriz.Celula getCelulaDaLinha(int index){
-        return (Matriz.Celula) this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0];
+    public Celula getCelulaDaLinha(int index){
+        return (Celula) this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0];
     }
 
-    public Matriz.Celula getCelulaDaColuna(int index){
-        return (Matriz.Celula) this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0];
+    public Celula getCelulaDaColuna(int index){
+        return (Celula) this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0];
     }
 
     public void removeCelulaDaLinha(int index){
-        this.linhas.remove((Matriz.Celula)this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0]);
+        this.linhas.remove((Celula)this.getLinhas().stream().filter(linha -> linha.getColuna() == index).collect(Collectors.toSet()).toArray()[0]);
     }
 
     public void removeCelulaDaColuna(int index){
-        this.colunas.remove((Matriz.Celula)this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0]);
+        this.colunas.remove((Celula)this.getColunas().stream().filter(coluna -> coluna.getLinha() == index).collect(Collectors.toSet()).toArray()[0]);
     }
 
     @Override

@@ -1,20 +1,15 @@
 package br.com.uerj;
 
 import br.com.uerj.controle.Sacola;
-import br.com.uerj.modelo.Resultado;
 import br.com.uerj.modelo.Tarefa;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class ServidorSocket {
-    public static void main(String args[]){
+    public static void main(String[] args){
         try {
             new ServidorSocket(12345).executa();
         } catch (IOException e) {
